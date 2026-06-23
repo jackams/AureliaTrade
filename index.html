@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Aurelia Trade — Advanced trading tools, institutional-grade security, and real-time market intelligence for modern traders." />
+  <meta property="og:title" content="Aurelia Trade — Trade Smarter. Invest Better." />
+  <meta property="og:description" content="Advanced trading tools, institutional-grade security, and real-time market intelligence." />
+  <meta property="og:type" content="website" />
+  <title>Aurelia Trade — Trade Smarter. Invest Better.</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    :root {
+      --bg: #050505;
+      --bg2: #0D1117;
+      --bg3: #0a0e14;
+      --gold: #D4AF37;
+      --gold-dark: #A67C00;
+      --gold-light: #f0cc56;
+      --white: #FFFFFF;
+      --gray: #9CA3AF;
+      --gray-dark: #4B5563;
+      --green: #22c55e;
+      --red: #ef4444;
+      --border: rgba(212,175,55,0.15);
+      --border-bright: rgba(212,175,55,0.35);
+      --glass: rgba(13,17,23,0.75);
+      --glass2: rgba(212,175,55,0.05);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 3px; }
+
+
+    /* PARTICLES */
+    #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .particle {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,175,55,0.7) 0%, transparent 70%);
+      animation: floatParticle linear infinite;
+    }
+    @keyframes floatParticle {
+      0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-80px) rotate(720deg); opacity: 0; }
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.1rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(5,5,5,0.8);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    nav.scrolled { padding: 0.75rem 2.5rem; background: rgba(5,5,5,0.97); box-shadow: 0 4px 40px rgba(212,175,55,0.07); }
+    .nav-logo {
+      display: flex; align-items: center; gap: 9px;
+      text-decoration: none;
+      background: none; -webkit-background-clip: unset; -webkit-text-fill-color: unset;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2.25rem; list-style: none; }
+    .nav-links a {
+      color: var(--gray); text-decoration: none; font-size: 0.875rem;
+      font-weight: 500; letter-spacing: 0.04em;
+      transition: color 0.2s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--gold);
+      transform: scaleX(0); transition: transform 0.25s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-actions { display: flex; align-items: center; gap: 0.75rem; }
+    .btn-ghost {
+      background: transparent; border: 1px solid var(--border-bright);
+      color: var(--gold); padding: 0.5rem 1.25rem; border-radius: 6px;
+      font-size: 0.875rem; font-weight: 600; cursor: pointer; letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { background: var(--glass2); border-color: var(--gold); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      border: none; color: #000; padding: 0.5rem 1.35rem; border-radius: 6px;
+      font-size: 0.875rem; font-weight: 700; cursor: pointer; letter-spacing: 0.05em;
+      transition: all 0.25s; position: relative; overflow: hidden;
+    }
+    .btn-primary:hover { box-shadow: 0 0 24px rgba(212,175,55,0.5); transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--gold); border-radius: 2px; }
+
+    /* MOBILE MENU */
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; z-index: 99;
+      background: rgba(5,5,5,0.98); backdrop-filter: blur(20px);
+      flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: var(--white); text-decoration: none; font-size: 1.5rem; font-weight: 600; letter-spacing: 0.08em; }
+    .mobile-menu-close { position: absolute; top: 1.5rem; right: 2rem; font-size: 2rem; cursor: pointer; color: var(--gold); }
+
+    /* LAYOUT */
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      overflow: hidden; position: relative;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,175,55,0.09) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 85% 70%, rgba(212,175,55,0.04) 0%, transparent 60%);
+    }
+    #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.32; }
+    .hero-content { position: relative; z-index: 2; max-width: 680px; padding-top: 7rem; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(212,175,55,0.1); border: 1px solid var(--border-bright);
+      border-radius: 100px; padding: 0.35rem 1rem;
+      font-size: 0.72rem; font-weight: 600; color: var(--gold);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.75rem;
+    }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(1.3);} }
+    .hero-title {
+      font-size: clamp(2.4rem, 6vw, 4.75rem);
+      font-weight: 900; line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 1.35rem;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub { font-size: 1.1rem; color: var(--gray); max-width: 500px; line-height: 1.75; margin-bottom: 2.5rem; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .btn-hero-primary {
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      color: #000; border: none; padding: 0.9rem 2.1rem; border-radius: 8px;
+      font-size: 1rem; font-weight: 700; cursor: pointer; letter-spacing: 0.04em;
+      transition: all 0.3s;
+    }
+    .btn-hero-primary:hover { box-shadow: 0 0 40px rgba(212,175,55,0.55); transform: translateY(-2px); }
+    .btn-hero-secondary {
+      background: transparent; border: 1px solid var(--border-bright);
+      color: var(--white); padding: 0.9rem 2.1rem; border-radius: 8px;
+      font-size: 1rem; font-weight: 600; cursor: pointer; letter-spacing: 0.04em;
+      display: flex; align-items: center; gap: 0.6rem; transition: all 0.3s;
+    }
+    .btn-hero-secondary:hover { border-color: var(--gold); color: var(--gold); background: var(--glass2); }
+    .play-icon { width: 22px; height: 22px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; flex-shrink:0; }
+    .play-icon::after { content:''; border-left:8px solid #000; border-top:5px solid transparent; border-bottom:5px solid transparent; margin-left:2px; }
+    .hero-stats { display: flex; gap: 2.5rem; flex-wrap: wrap; }
+    .hero-stat-value { font-size: 1.6rem; font-weight: 800; color: var(--gold); }
+    .hero-stat-label { font-size: 0.72rem; color: var(--gray); letter-spacing: 0.06em; }
+
+    /* FLOATING CARDS */
+    .hero-floating {
+      position: absolute; right: 2rem; top: 50%; transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 1rem; z-index: 2;
+    }
+    .float-card {
+      background: var(--glass); border: 1px solid var(--border);
+      backdrop-filter: blur(20px); border-radius: 14px; padding: 1.1rem 1.4rem;
+      min-width: 185px; animation: floatCard 4s ease-in-out infinite;
+    }
+    .float-card:nth-child(2) { animation-delay: -2s; margin-left: 1.25rem; }
+    .float-card:nth-child(3) { animation-delay: -1s; }
+    @keyframes floatCard { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+    .float-card-label { font-size: 0.68rem; color: var(--gray); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; }
+    .float-card-value { font-size: 1.25rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .float-card-change { font-size: 0.75rem; font-weight: 600; margin-top: 0.2rem; }
+    .up { color: var(--green); } .down { color: var(--red); }
+
+    /* TICKER */
+    #ticker {
+      background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 0.65rem 0; overflow: hidden; position: relative; z-index: 2;
+    }
+    .ticker-track { display: flex; gap: 3rem; white-space: nowrap; animation: tickerMove 35s linear infinite; }
+    @keyframes tickerMove { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+    .ticker-item { display: flex; align-items: center; gap: 0.65rem; font-size: 0.78rem; }
+    .ticker-symbol { font-weight: 700; color: var(--white); letter-spacing: 0.06em; }
+    .ticker-price { color: var(--gray); font-variant-numeric: tabular-nums; }
+    .ticker-sep { color: rgba(212,175,55,0.25); }
+
+    /* MARKETS */
+    #markets { padding: 6rem 0; }
+    .section-label { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 0.75rem; }
+    .section-title { font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 800; line-height: 1.15; margin-bottom: 1rem; }
+    .section-sub { color: var(--gray); font-size: 1rem; max-width: 500px; margin-bottom: 3rem; }
+    .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+    .market-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem;
+      transition: all 0.3s; cursor: pointer; position: relative; overflow: hidden;
+    }
+    .market-card::before {
+      content:''; position:absolute; inset:0;
+      background: linear-gradient(135deg, rgba(212,175,55,0.04) 0%, transparent 60%);
+      opacity:0; transition:opacity 0.3s;
+    }
+    .market-card:hover { border-color: var(--border-bright); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .market-card:hover::before { opacity:1; }
+    .market-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+    .market-pair { font-size: 1rem; font-weight: 700; letter-spacing: 0.04em; }
+    .market-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; letter-spacing: 0.06em; }
+    .badge-crypto { background: rgba(212,175,55,0.15); color: var(--gold); }
+    .badge-index { background: rgba(59,130,246,0.15); color: #60a5fa; }
+    .badge-forex { background: rgba(139,92,246,0.15); color: #a78bfa; }
+    .badge-commodity { background: rgba(245,158,11,0.15); color: #fbbf24; }
+    .market-price { font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; margin-bottom: 0.35rem; }
+    .market-change { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; }
+    .market-mini-chart { height: 48px; margin-top: 1rem; }
+    .market-mini-chart canvas { width: 100%; height: 100%; }
+    .live-dot-sm { width: 7px; height: 7px; border-radius: 50%; animation: pulse 1.5s infinite; }
+
+    /* FEATURES */
+    #features { padding: 6rem 0; background: linear-gradient(180deg, transparent, rgba(13,17,23,0.5) 50%, transparent); }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .feature-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 2rem;
+      transition: all 0.35s; position: relative; overflow: hidden;
+    }
+    .feature-card::after {
+      content:''; position:absolute; top:0; left:0; right:0; height:1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: scaleX(0); transition: transform 0.4s;
+    }
+    .feature-card:hover { border-color: var(--border-bright); transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+    .feature-card:hover::after { transform: scaleX(1); }
+    .feature-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
+      border: 1px solid var(--border-bright);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;
+    }
+    .feature-icon svg { width: 26px; height: 26px; }
+    .feature-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .feature-desc { font-size: 0.875rem; color: var(--gray); line-height: 1.75; }
+
+    /* PLATFORM PREVIEW */
+    #platform { padding: 6rem 0; }
+    .platform-wrapper {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 20px;
+      overflow: hidden; box-shadow: 0 32px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,175,55,0.06);
+    }
+    .platform-titlebar {
+      background: var(--bg3); border-bottom: 1px solid var(--border);
+      padding: 0.8rem 1.25rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .titlebar-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .titlebar-dot.red{background:#ef4444;} .titlebar-dot.yellow{background:#f59e0b;} .titlebar-dot.green{background:#22c55e;}
+    .titlebar-label { font-size: 0.72rem; color: var(--gray); margin-left: 0.5rem; letter-spacing: 0.06em; }
+    .platform-body { display: grid; grid-template-columns: 1fr 290px; min-height: 480px; }
+    .platform-main { border-right: 1px solid var(--border); padding: 1.25rem; }
+    .platform-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; }
+    .platform-pair { font-size: 1.05rem; font-weight: 700; }
+    .platform-pvalue { font-size: 1.4rem; font-weight: 800; font-variant-numeric: tabular-nums; margin-top: 0.15rem; }
+    .platform-timeframes { display: flex; gap: 0.4rem; margin-top: 0.25rem; }
+    .tf-btn {
+      background:transparent; border:1px solid var(--border); color:var(--gray);
+      padding:0.25rem 0.6rem; border-radius:4px; font-size:0.7rem; cursor:pointer; transition:all 0.2s;
+    }
+    .tf-btn.active,.tf-btn:hover { background:var(--glass2); border-color:var(--gold); color:var(--gold); }
+    #platform-canvas { width:100%; height:280px; display:block; }
+    .platform-positions { margin-top: 1rem; }
+    .pos-title { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gray); margin-bottom:0.5rem; }
+    .pos-table { width:100%; font-size:0.73rem; border-collapse:collapse; }
+    .pos-table th { color:var(--gray); font-weight:500; padding:0.3rem 0.4rem; text-align:left; border-bottom:1px solid var(--border); }
+    .pos-table td { padding:0.4rem 0.4rem; border-bottom:1px solid rgba(255,255,255,0.03); }
+    .platform-sidebar { padding: 1.25rem; display: flex; flex-direction: column; gap: 1.25rem; overflow-y: auto; }
+    .sidebar-section-title { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gray); margin-bottom:0.5rem; }
+    .portfolio-value { font-size:1.5rem; font-weight:800; color:var(--gold); }
+    .portfolio-change { font-size:0.78rem; color:var(--green); margin-top:0.1rem; }
+    .pl-cards { display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:0.6rem; }
+    .pl-card { background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:0.6rem; }
+    .pl-card-label { font-size:0.62rem; color:var(--gray); margin-bottom:0.15rem; }
+    .pl-card-value { font-size:0.88rem; font-weight:700; }
+    .watchlist-item { display:flex; align-items:center; justify-content:space-between; padding:0.4rem 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+    .wl-symbol { font-size:0.78rem; font-weight:600; }
+    .wl-price { font-size:0.78rem; font-variant-numeric:tabular-nums; }
+    .history-item { display:flex; align-items:center; justify-content:space-between; padding:0.35rem 0; border-bottom:1px solid rgba(255,255,255,0.03); }
+    .history-item .pair { font-size:0.73rem; font-weight:600; }
+    .side { font-size:0.62rem; padding:0.1rem 0.35rem; border-radius:3px; }
+    .side.buy { background:rgba(34,197,94,0.15); color:var(--green); }
+    .side.sell { background:rgba(239,68,68,0.15); color:var(--red); }
+    .history-item .pnl { font-size:0.73rem; font-weight:600; }
+
+    /* WHY */
+    #why { padding: 6rem 0; }
+    .why-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
+    .stat-card {
+      text-align:center; padding:2.5rem 1rem;
+      background:var(--bg2); border:1px solid var(--border); border-radius:16px;
+      transition:all 0.3s; position:relative; overflow:hidden;
+    }
+    .stat-card::before {
+      content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+      width:60%; height:1px;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    }
+    .stat-card:hover { border-color:var(--border-bright); transform:translateY(-4px); }
+    .stat-number { font-size:2.4rem; font-weight:900; color:var(--gold); line-height:1; margin-bottom:0.5rem; }
+    .stat-label { font-size:0.85rem; color:var(--gray); font-weight:500; }
+
+    /* TESTIMONIALS */
+    #testimonials { padding: 6rem 0; background: linear-gradient(180deg,transparent,rgba(13,17,23,0.4) 50%,transparent); }
+    .testimonials-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.5rem; }
+    .testimonial-card {
+      background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:2rem;
+      transition:all 0.3s;
+    }
+    .testimonial-card:hover { border-color:var(--border-bright); transform:translateY(-3px); box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+    .stars { color:var(--gold); font-size:1rem; letter-spacing:0.1em; margin-bottom:1rem; }
+    .testimonial-text { font-size:0.875rem; color:var(--gray); line-height:1.8; margin-bottom:1.5rem; }
+    .testimonial-author { display:flex; align-items:center; gap:0.875rem; }
+    .author-avatar {
+      width:44px; height:44px; border-radius:50%;
+      background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+      display:flex; align-items:center; justify-content:center;
+      font-weight:800; font-size:0.95rem; color:#000; flex-shrink:0;
+    }
+    .author-name { font-size:0.9rem; font-weight:700; }
+    .author-title { font-size:0.73rem; color:var(--gray); }
+
+    /* PRICING */
+    #pricing { padding: 6rem 0; }
+    .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; align-items:stretch; }
+    .pricing-card {
+      background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:2.5rem 2rem;
+      transition:all 0.35s; display:flex; flex-direction:column; position:relative; overflow:hidden;
+    }
+    .pricing-card:hover { transform:translateY(-5px); box-shadow:0 16px 48px rgba(0,0,0,0.5); }
+    .pricing-card.featured {
+      border-color:var(--gold);
+      background:linear-gradient(160deg,rgba(212,175,55,0.07) 0%,var(--bg2) 55%);
+      box-shadow:0 0 0 1px rgba(212,175,55,0.2),0 16px 48px rgba(212,175,55,0.1);
+    }
+    .featured-badge {
+      position:absolute; top:-1px; left:50%; transform:translateX(-50%);
+      background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+      color:#000; font-size:0.62rem; font-weight:800; letter-spacing:0.12em;
+      text-transform:uppercase; padding:0.3rem 1.1rem; border-radius:0 0 8px 8px;
+    }
+    .pricing-tier { font-size:0.75rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:0.75rem; }
+    .pricing-price { font-size:2.75rem; font-weight:900; line-height:1; margin-bottom:0.25rem; }
+    .pricing-price sup { font-size:1rem; font-weight:500; color:var(--gray); vertical-align:super; }
+    .pricing-period { font-size:0.78rem; color:var(--gray); margin-bottom:1.75rem; }
+    .pricing-features { list-style:none; display:flex; flex-direction:column; gap:0.75rem; flex:1; margin-bottom:2rem; }
+    .pricing-features li { display:flex; align-items:flex-start; gap:0.7rem; font-size:0.875rem; color:var(--gray); }
+    .pricing-features li::before { content:'✓'; color:var(--gold); font-weight:800; flex-shrink:0; }
+    .btn-pricing { padding:0.9rem; border-radius:10px; font-size:0.9rem; font-weight:700; cursor:pointer; transition:all 0.25s; letter-spacing:0.04em; text-align:center; width:100%; }
+    .btn-pricing-outline { background:transparent; border:1px solid var(--border-bright); color:var(--white); }
+    .btn-pricing-outline:hover { border-color:var(--gold); color:var(--gold); background:var(--glass2); }
+    .btn-pricing-gold { background:linear-gradient(135deg,var(--gold-dark),var(--gold)); border:none; color:#000; }
+    .btn-pricing-gold:hover { box-shadow:0 0 32px rgba(212,175,55,0.5); transform:translateY(-1px); }
+
+    /* FAQ */
+    #faq { padding: 6rem 0; }
+    .faq-list { max-width: 720px; margin:0 auto; display:flex; flex-direction:column; gap:0.75rem; }
+    .faq-item { background:var(--bg2); border:1px solid var(--border); border-radius:12px; overflow:hidden; transition:border-color 0.2s; }
+    .faq-item.open { border-color:var(--border-bright); }
+    .faq-question {
+      padding:1.25rem 1.5rem; display:flex; align-items:center; justify-content:space-between;
+      cursor:pointer; font-weight:600; font-size:0.95rem; transition:color 0.2s; user-select:none;
+    }
+    .faq-question:hover { color:var(--gold); }
+    .faq-icon {
+      width:26px; height:26px; border-radius:50%; background:var(--glass2);
+      border:1px solid var(--border-bright); display:flex; align-items:center; justify-content:center;
+      flex-shrink:0; transition:all 0.3s; font-size:1.1rem; color:var(--gold); line-height:1;
+    }
+    .faq-item.open .faq-icon { transform:rotate(45deg); background:rgba(212,175,55,0.15); }
+    .faq-answer { max-height:0; overflow:hidden; transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1); }
+    .faq-answer-inner { padding:0 1.5rem 1.35rem; color:var(--gray); font-size:0.875rem; line-height:1.8; }
+
+    /* CTA */
+    #cta {
+      padding:8rem 0; text-align:center;
+      background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(212,175,55,0.06) 0%,transparent 70%);
+      border-top:1px solid var(--border);
+    }
+    .cta-title { font-size:clamp(2rem,5vw,3.5rem); font-weight:900; margin-bottom:1.25rem; }
+    .cta-sub { color:var(--gray); font-size:1.05rem; margin-bottom:2.5rem; max-width:460px; margin-left:auto; margin-right:auto; }
+    .cta-disclaimer { font-size:0.73rem; color:var(--gray-dark); margin-top:1rem; }
+
+    /* FOOTER */
+    footer { background:var(--bg2); border-top:1px solid var(--border); padding:4rem 0 2rem; }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
+    .footer-logo {
+      font-size:1.25rem; font-weight:800; letter-spacing:0.12em;
+      background:linear-gradient(135deg,var(--gold),var(--gold-light));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      display:inline-block; margin-bottom:1rem;
+    }
+    .footer-desc { color:var(--gray); font-size:0.875rem; line-height:1.7; max-width:230px; margin-bottom:1.5rem; }
+    .social-links { display:flex; gap:0.65rem; }
+    .social-link {
+      width:36px; height:36px; border-radius:8px;
+      background:var(--bg); border:1px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--gray); text-decoration:none; font-size:0.8rem;
+      transition:all 0.2s;
+    }
+    .social-link:hover { border-color:var(--gold); color:var(--gold); background:var(--glass2); }
+    .footer-col-title { font-size:0.75rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--white); margin-bottom:1.25rem; }
+    .footer-links { list-style:none; display:flex; flex-direction:column; gap:0.65rem; }
+    .footer-links a { color:var(--gray); text-decoration:none; font-size:0.875rem; transition:color 0.2s; }
+    .footer-links a:hover { color:var(--gold); }
+    .footer-bottom { border-top:1px solid var(--border); padding-top:2rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+    .footer-copy { font-size:0.78rem; color:var(--gray); }
+    .footer-legal { display:flex; gap:1.5rem; }
+    .footer-legal a { font-size:0.78rem; color:var(--gray); text-decoration:none; transition:color 0.2s; }
+    .footer-legal a:hover { color:var(--gold); }
+
+    /* AUTH FORM */
+    .auth-field { margin-bottom:1rem; text-align:left; }
+    .auth-label { display:block; font-size:.78rem; font-weight:600; color:#3c4043; margin-bottom:.35rem; }
+    .auth-input {
+      width:100%; padding:.7rem .95rem; border-radius:8px;
+      border:1.5px solid #dadce0; font-size:.9rem; color:#202124;
+      outline:none; transition:border-color .2s, box-shadow .2s;
+      font-family:inherit; background:#fff;
+    }
+    .auth-input:focus { border-color:#D4AF37; box-shadow:0 0 0 3px rgba(212,175,55,0.15); }
+    .auth-input::placeholder { color:#aaa; }
+    .pass-toggle {
+      position:absolute; right:10px; top:50%; transform:translateY(-50%);
+      background:none; border:none; cursor:pointer; font-size:1rem; color:#888; line-height:1; padding:0;
+    }
+    .auth-btn-primary {
+      width:100%; padding:.8rem 1rem; border-radius:8px; border:none; cursor:pointer;
+      background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+      color:#000; font-size:.95rem; font-weight:700;
+      font-family:inherit; transition:all .2s; letter-spacing:.03em;
+    }
+    .auth-btn-primary:hover { box-shadow:0 0 20px rgba(212,175,55,0.5); transform:translateY(-1px); }
+
+    /* NAV LOGO IMAGE */
+    .nav-logo-img { height:34px; width:34px; object-fit:contain; border-radius:4px; }
+    .nav-logo { display:flex; align-items:center; gap:9px; text-decoration:none; }
+    .nav-logo-text { font-size:1rem; font-weight:800; letter-spacing:0.12em; background:linear-gradient(135deg,var(--gold),var(--gold-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+
+    /* GOOGLE LOGIN BUTTON */
+    .btn-google {
+      display:flex; align-items:center; gap:8px;
+      padding:.45rem 1rem; border-radius:8px;
+      background:#fff; color:#3c4043;
+      border:1px solid #dadce0; cursor:pointer;
+      font-size:.82rem; font-weight:600;
+      font-family:'Segoe UI',system-ui,sans-serif;
+      transition:all .2s; white-space:nowrap;
+    }
+    .btn-google:hover { background:#f8f8f8; box-shadow:0 2px 8px rgba(0,0,0,.3); }
+    .btn-google svg { width:16px; height:16px; flex-shrink:0; }
+
+    /* GOOGLE LOGIN MODAL */
+    .g-modal-overlay {
+      position:fixed; inset:0; z-index:10000;
+      background:rgba(0,0,0,0.75); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:center;
+      opacity:0; visibility:hidden; transition:all .25s;
+    }
+    .g-modal-overlay.open { opacity:1; visibility:visible; }
+    .g-modal {
+      background:#fff; border-radius:16px;
+      width:100%; max-width:400px; padding:2.5rem 2rem;
+      text-align:center; position:relative;
+      box-shadow:0 24px 80px rgba(0,0,0,0.6);
+      transform:translateY(18px) scale(.97);
+      transition:transform .25s;
+    }
+    .g-modal-overlay.open .g-modal { transform:translateY(0) scale(1); }
+    .g-modal-close {
+      position:absolute; top:14px; right:16px;
+      background:none; border:none; cursor:pointer;
+      font-size:1.4rem; color:#777; line-height:1;
+    }
+    .g-modal-close:hover { color:#333; }
+    .g-modal-logo { width:56px; height:56px; object-fit:contain; margin:0 auto 1rem; display:block; border-radius:8px; }
+    .g-modal-title { font-size:1.3rem; font-weight:700; color:#202124; margin-bottom:.25rem; }
+    .g-modal-sub { font-size:.875rem; color:#5f6368; margin-bottom:1.75rem; }
+    .g-modal-divider { display:flex; align-items:center; gap:.75rem; margin:1.25rem 0; }
+    .g-modal-divider::before,.g-modal-divider::after { content:''; flex:1; height:1px; background:#e0e0e0; }
+    .g-modal-divider span { font-size:.75rem; color:#888; }
+    .g-btn-google-full {
+      width:100%; display:flex; align-items:center; justify-content:center; gap:10px;
+      padding:.8rem 1rem; border-radius:8px;
+      background:#fff; color:#3c4043; border:1.5px solid #dadce0;
+      cursor:pointer; font-size:.95rem; font-weight:500;
+      font-family:'Segoe UI',system-ui,sans-serif; transition:all .2s;
+    }
+    .g-btn-google-full:hover { background:#f8f9fa; box-shadow:0 2px 12px rgba(0,0,0,.15); }
+    .g-btn-google-full svg { width:20px; height:20px; }
+    .g-modal-terms { font-size:.7rem; color:#9e9e9e; margin-top:1.25rem; }
+    .g-modal-terms a { color:#5f6368; }
+    .g-user-bar {
+      display:flex; align-items:center; gap:8px;
+      padding:.35rem .8rem; border-radius:20px;
+      background:var(--glass2); border:1px solid var(--border);
+    }
+    .g-user-avatar {
+      width:26px; height:26px; border-radius:50%;
+      background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+      display:flex; align-items:center; justify-content:center;
+      font-size:.7rem; font-weight:700; color:#000;
+    }
+    .g-user-name { font-size:.78rem; color:var(--gray); max-width:100px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .g-logout-btn { background:none; border:none; cursor:pointer; color:var(--gray-dark); font-size:.72rem; padding:0; transition:color .2s; }
+    .g-logout-btn:hover { color:var(--gold); }
+
+    /* EASY A KICKSTARS */
+    .partner-bar {
+      border-top:1px solid var(--border);
+      padding:1.5rem 0 1rem;
+      margin-bottom:2rem;
+      display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;
+    }
+    .partner-label { font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-dark); }
+    .partner-logo-eaks {
+      display:flex; align-items:center; gap:8px;
+      text-decoration:none;
+    }
+    .eaks-badge {
+      background:linear-gradient(135deg,#1a1a2e,#16213e);
+      border:1px solid rgba(100,180,255,0.25);
+      border-radius:8px; padding:.35rem .75rem;
+      display:flex; align-items:center; gap:6px;
+    }
+    .eaks-star {
+      font-size:1rem; line-height:1;
+      background:linear-gradient(135deg,#60a5fa,#a78bfa);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .eaks-text {
+      font-size:.8rem; font-weight:700; letter-spacing:.05em;
+      background:linear-gradient(135deg,#60a5fa,#a78bfa);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+
+    /* FOOTER LOGO IMAGE */
+    .footer-logo-img { height:44px; object-fit:contain; margin-bottom:1rem; display:block; }
+
+    /* SCROLL ANIMATIONS */
+    .fade-in { opacity:0; transform:translateY(28px); transition:opacity 0.7s ease,transform 0.7s ease; }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
+    .delay-1{transition-delay:.1s;} .delay-2{transition-delay:.2s;} .delay-3{transition-delay:.3s;}
+    .delay-4{transition-delay:.4s;} .delay-5{transition-delay:.5s;}
+
+    /* RESPONSIVE */
+    @media(max-width:1100px){
+      .platform-body{grid-template-columns:1fr;}
+      .platform-sidebar{border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
+      .why-grid{grid-template-columns:repeat(2,1fr);}
+      .footer-grid{grid-template-columns:1fr 1fr;gap:2rem;}
+      .hero-floating{display:none;}
+    }
+    @media(max-width:768px){
+      .nav-links,.nav-actions{display:none;}
+      .hamburger{display:flex;}
+      .pricing-grid{grid-template-columns:1fr;max-width:380px;margin:0 auto;}
+      .footer-grid{grid-template-columns:1fr;}
+      .footer-bottom{flex-direction:column;text-align:center;}
+    }
+    @media(max-width:480px){
+      .why-grid{grid-template-columns:1fr;}
+      .hero-stats{flex-direction:column;gap:1rem;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN MODAL -->
+<div class="g-modal-overlay" id="g-modal-overlay">
+  <div class="g-modal">
+    <button class="g-modal-close" onclick="closeGoogleModal()">&times;</button>
+
+    <!-- SIGN IN VIEW -->
+    <div id="login-view">
+      <div class="g-modal-title" style="color:#202124;margin-bottom:.25rem;">Selamat Datang</div>
+      <div class="g-modal-sub">Masuk ke akun Aurelia Trade Anda</div>
+
+      <div id="login-error" style="display:none;background:#fef2f2;border:1px solid #fecaca;color:#dc2626;border-radius:8px;padding:.65rem .9rem;font-size:.82rem;margin-bottom:1rem;text-align:left;"></div>
+
+      <div class="auth-field">
+        <label class="auth-label">Email</label>
+        <input type="email" id="login-email" class="auth-input" placeholder="nama@email.com" />
+      </div>
+      <div class="auth-field">
+        <label class="auth-label">Password</label>
+        <div style="position:relative;">
+          <input type="password" id="login-pass" class="auth-input" placeholder="Masukkan password" />
+          <button type="button" class="pass-toggle" onclick="togglePass('login-pass',this)">&#128065;</button>
+        </div>
+      </div>
+      <div style="text-align:right;margin-bottom:1.25rem;">
+        <a href="#" onclick="switchView('forgot-view');return false;" style="font-size:.78rem;color:#5f6368;">Lupa password?</a>
+      </div>
+      <button class="auth-btn-primary" onclick="doEmailLogin()">Masuk</button>
+
+      <div class="g-modal-divider" style="margin:1.25rem 0;"><span>atau</span></div>
+      <button class="g-btn-google-full" onclick="triggerGoogleSignIn()">
+        <svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Masuk dengan Google
+      </button>
+
+      <p style="font-size:.78rem;color:#5f6368;margin-top:1.25rem;">
+        Belum punya akun? <a href="#" onclick="switchView('register-view');return false;" style="color:#D4AF37;font-weight:600;">Daftar sekarang</a>
+      </p>
+    </div>
+
+    <!-- REGISTER VIEW -->
+    <div id="register-view" style="display:none;">
+      <div class="g-modal-title" style="color:#202124;margin-bottom:.25rem;">Buat Akun</div>
+      <div class="g-modal-sub">Bergabung dengan Aurelia Trade gratis</div>
+
+      <div id="reg-error" style="display:none;background:#fef2f2;border:1px solid #fecaca;color:#dc2626;border-radius:8px;padding:.65rem .9rem;font-size:.82rem;margin-bottom:1rem;text-align:left;"></div>
+
+      <div class="auth-field">
+        <label class="auth-label">Nama Lengkap</label>
+        <input type="text" id="reg-name" class="auth-input" placeholder="Nama Anda" />
+      </div>
+      <div class="auth-field">
+        <label class="auth-label">Email</label>
+        <input type="email" id="reg-email" class="auth-input" placeholder="nama@email.com" />
+      </div>
+      <div class="auth-field">
+        <label class="auth-label">Password</label>
+        <div style="position:relative;">
+          <input type="password" id="reg-pass" class="auth-input" placeholder="Min. 6 karakter" />
+          <button type="button" class="pass-toggle" onclick="togglePass('reg-pass',this)">&#128065;</button>
+        </div>
+      </div>
+      <button class="auth-btn-primary" onclick="doRegister()">Buat Akun</button>
+      <p style="font-size:.78rem;color:#5f6368;margin-top:1.25rem;">
+        Sudah punya akun? <a href="#" onclick="switchView('login-view');return false;" style="color:#D4AF37;font-weight:600;">Masuk</a>
+      </p>
+    </div>
+
+    <!-- FORGOT PASSWORD VIEW -->
+    <div id="forgot-view" style="display:none;">
+      <div class="g-modal-title" style="color:#202124;margin-bottom:.25rem;">Reset Password</div>
+      <div class="g-modal-sub">Masukkan email Anda untuk mendapat link reset</div>
+      <div class="auth-field">
+        <label class="auth-label">Email</label>
+        <input type="email" id="forgot-email" class="auth-input" placeholder="nama@email.com" />
+      </div>
+      <button class="auth-btn-primary" onclick="doForgot()">Kirim Link Reset</button>
+      <p style="font-size:.78rem;color:#5f6368;margin-top:1.25rem;">
+        <a href="#" onclick="switchView('login-view');return false;" style="color:#D4AF37;font-weight:600;">&larr; Kembali ke Login</a>
+      </p>
+    </div>
+
+    <!-- SUCCESS VIEW -->
+    <div id="success-view" style="display:none;text-align:center;padding:1rem 0;">
+      <div style="font-size:3rem;margin-bottom:1rem;">✅</div>
+      <div class="g-modal-title" style="color:#202124;" id="success-title">Selamat datang!</div>
+      <div class="g-modal-sub" id="success-sub">Anda berhasil masuk.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PARTICLES -->
+<div id="particles"></div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <span class="mobile-menu-close" id="menu-close">&times;</span>
+  <a href="#hero" onclick="closeMobileMenu()">Home</a>
+  <a href="#markets" onclick="closeMobileMenu()">Markets</a>
+  <a href="#features" onclick="closeMobileMenu()">Features</a>
+  <a href="#pricing" onclick="closeMobileMenu()">Pricing</a>
+  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+  <a href="#" onclick="closeMobileMenu()" style="background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:#000;padding:.75rem 2rem;border-radius:8px;font-weight:700;font-size:1rem;">Start Trading</a>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <span class="nav-logo-text">AURELIA&nbsp;TRADE</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#markets">Markets</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-actions" id="nav-actions">
+    <button class="btn-google" id="nav-login-btn" onclick="openGoogleModal()">
+      <svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Sign in with Google
+    </button>
+    <button class="btn-primary" onclick="openGoogleModal()">Start Trading</button>
+  </div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <canvas id="hero-canvas"></canvas>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="live-dot"></div>
+        Live Markets Active
+      </div>
+      <h1 class="hero-title">
+        Trade Smarter.<br>
+        <span class="gradient-text">Invest Better.</span>
+      </h1>
+      <p class="hero-sub">Advanced trading tools, institutional-grade security, and real-time market intelligence for modern traders.</p>
+      <div class="hero-actions">
+        <button class="btn-hero-primary" onclick="openGoogleModal()">Start Trading &rarr;</button>
+        <button class="btn-hero-secondary" onclick="document.getElementById('platform').scrollIntoView({behavior:'smooth'})"><div class="play-icon"></div>Watch Demo</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-value">$5B+</div><div class="hero-stat-label">Monthly Volume</div></div>
+        <div class="hero-stat"><div class="hero-stat-value">500K+</div><div class="hero-stat-label">Active Traders</div></div>
+        <div class="hero-stat"><div class="hero-stat-value">99.99%</div><div class="hero-stat-label">Uptime</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-floating">
+    <div class="float-card">
+      <div class="float-card-label">BTC / USD</div>
+      <div class="float-card-value" id="hf-btc">$67,842.50</div>
+      <div class="float-card-change up" id="hf-btc-c">&#x25B2; +2.34%</div>
+    </div>
+    <div class="float-card">
+      <div class="float-card-label">Portfolio Value</div>
+      <div class="float-card-value" style="color:var(--gold)">$142,830</div>
+      <div class="float-card-change up">&#x25B2; +$3,210 today</div>
+    </div>
+    <div class="float-card">
+      <div class="float-card-label">ETH / USD</div>
+      <div class="float-card-value" id="hf-eth">$3,521.80</div>
+      <div class="float-card-change down" id="hf-eth-c">&#x25BC; &#x2212;0.87%</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div id="ticker"><div class="ticker-track" id="ticker-track"></div></div>
+
+<!-- MARKETS -->
+<section id="markets">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label">Live Markets</div>
+      <h2 class="section-title">Real-Time Market <span class="gradient-text">Intelligence</span></h2>
+      <p class="section-sub">Monitor live price action across crypto, equities, forex, and commodities — all in one place.</p>
+    </div>
+    <div class="market-grid" id="market-grid"></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div style="text-align:center;max-width:560px;margin:0 auto 3rem;" class="fade-in">
+      <div class="section-label">Platform Features</div>
+      <h2 class="section-title">Everything You Need to <span class="gradient-text">Win</span></h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fade-in delay-1">
+        <div class="feature-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="var(--gold)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/><path stroke-linecap="round" stroke-linejoin="round" d="M18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"/></svg>
+        </div>
+        <div class="feature-title">AI Trading Signals</div>
+        <div class="feature-desc">Machine learning models scan 1,000+ data points per second to surface high-conviction trade setups before the crowd identifies them.</div>
+      </div>
+      <div class="feature-card fade-in delay-2">
+        <div class="feature-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="var(--gold)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
+        </div>
+        <div class="feature-title">Real-Time Analytics</div>
+        <div class="feature-desc">Professional-grade charting with 100+ indicators, custom drawing tools, and multi-timeframe analysis updated tick-by-tick.</div>
+      </div>
+      <div class="feature-card fade-in delay-3">
+        <div class="feature-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="var(--gold)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
+        </div>
+        <div class="feature-title">Copy Trading</div>
+        <div class="feature-desc">Mirror the portfolios of verified top performers automatically. Set risk limits, allocations, and stop conditions to trade on autopilot.</div>
+      </div>
+      <div class="feature-card fade-in delay-1">
+        <div class="feature-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="var(--gold)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/></svg>
+        </div>
+        <div class="feature-title">Portfolio Tracking</div>
+        <div class="feature-desc">Unified dashboard for all your assets across exchanges and wallets. Real-time P&amp;L, allocation breakdowns, and performance attribution.</div>
+      </div>
+      <div class="feature-card fade-in delay-2">
+        <div class="feature-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="var(--gold)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+        </div>
+        <div class="feature-title">Advanced Security</div>
+        <div class="feature-desc">Bank-grade 256-bit AES encryption, biometric 2FA, cold storage for 95% of assets, and real-time anomaly detection to protect every dollar.</div>
+      </div>
+      <div class="feature-card fade-in delay-3">
+        <div class="feature-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="var(--gold)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+        </div>
+        <div class="feature-title">Fast Order Execution</div>
+        <div class="feature-desc">Sub-millisecond order routing with smart order routing across 40+ liquidity providers. Zero slippage on limit orders up to $500K.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM PREVIEW -->
+<section id="platform">
+  <div class="container">
+    <div style="text-align:center;max-width:560px;margin:0 auto 3rem;" class="fade-in">
+      <div class="section-label">Platform Preview</div>
+      <h2 class="section-title">Professional <span class="gradient-text">Trading Interface</span></h2>
+      <p class="section-sub" style="margin:0 auto;">Institutional-grade tools in an elegant, intuitive interface built for speed and precision.</p>
+    </div>
+    <div class="platform-wrapper fade-in">
+      <div class="platform-titlebar">
+        <div class="titlebar-dot red"></div>
+        <div class="titlebar-dot yellow"></div>
+        <div class="titlebar-dot green"></div>
+        <div class="titlebar-label">Aurelia Trade &mdash; Professional Terminal v4.2</div>
+      </div>
+      <div class="platform-body">
+        <div class="platform-main">
+          <div class="platform-header">
+            <div>
+              <div class="platform-pair">BTC / USD <span style="font-size:.68rem;color:var(--gray);margin-left:.4rem;">PERPETUAL</span></div>
+              <div class="platform-pvalue" id="platform-price">$67,842.50 <span style="font-size:.85rem;color:var(--green);">&#x25B2; +2.34%</span></div>
+            </div>
+            <div>
+              <div class="platform-timeframes">
+                <button class="tf-btn">1m</button>
+                <button class="tf-btn">5m</button>
+                <button class="tf-btn active">1H</button>
+                <button class="tf-btn">4H</button>
+                <button class="tf-btn">1D</button>
+              </div>
+            </div>
+          </div>
+          <canvas id="platform-canvas"></canvas>
+          <div class="platform-positions">
+            <div class="pos-title">Open Positions</div>
+            <table class="pos-table">
+              <thead><tr><th>Pair</th><th>Side</th><th>Size</th><th>Entry</th><th>Mark</th><th>PnL</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:600">BTC/USD</td>
+                  <td style="color:var(--green);font-weight:600">LONG</td>
+                  <td>0.5 BTC</td><td>$65,200</td>
+                  <td id="btc-mark">$67,842</td>
+                  <td class="up">+$1,321</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600">ETH/USD</td>
+                  <td style="color:var(--red);font-weight:600">SHORT</td>
+                  <td>5 ETH</td><td>$3,680</td><td>$3,521</td>
+                  <td class="up">+$795</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600">GOLD</td>
+                  <td style="color:var(--green);font-weight:600">LONG</td>
+                  <td>10 oz</td><td>$2,290</td><td>$2,314</td>
+                  <td class="up">+$240</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="platform-sidebar">
+          <div>
+            <div class="sidebar-section-title">Portfolio</div>
+            <div class="portfolio-value">$142,830</div>
+            <div class="portfolio-change">&#x25B2; +$3,210 today (+2.30%)</div>
+            <div class="pl-cards">
+              <div class="pl-card"><div class="pl-card-label">Total P&amp;L</div><div class="pl-card-value up">+$24,312</div></div>
+              <div class="pl-card"><div class="pl-card-label">Day P&amp;L</div><div class="pl-card-value up">+$3,210</div></div>
+              <div class="pl-card"><div class="pl-card-label">Win Rate</div><div class="pl-card-value" style="color:var(--gold)">73.2%</div></div>
+              <div class="pl-card"><div class="pl-card-label">Open</div><div class="pl-card-value">3 Pos.</div></div>
+            </div>
+          </div>
+          <div>
+            <div class="sidebar-section-title">Watchlist</div>
+            <div id="watchlist"></div>
+          </div>
+          <div>
+            <div class="sidebar-section-title">Trade History</div>
+            <div id="history"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section id="why">
+  <div class="container">
+    <div style="text-align:center;max-width:540px;margin:0 auto 3rem;" class="fade-in">
+      <div class="section-label">Why Aurelia</div>
+      <h2 class="section-title">Built for <span class="gradient-text">Scale</span></h2>
+      <p class="section-sub" style="margin:0 auto;">The numbers behind the platform trusted by professionals across 120 countries.</p>
+    </div>
+    <div class="why-grid">
+      <div class="stat-card fade-in delay-1"><div class="stat-number" data-target="5" data-prefix="$" data-suffix="B+">$0B+</div><div class="stat-label">Monthly Trading Volume</div></div>
+      <div class="stat-card fade-in delay-2"><div class="stat-number" data-target="500" data-suffix="K+">0K+</div><div class="stat-label">Active Traders</div></div>
+      <div class="stat-card fade-in delay-3"><div class="stat-number" data-target="120" data-suffix="+">0+</div><div class="stat-label">Countries</div></div>
+      <div class="stat-card fade-in delay-4"><div class="stat-number" data-target="9999" data-mode="uptime">0%</div><div class="stat-label">Uptime SLA</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div style="text-align:center;max-width:540px;margin:0 auto 3rem;" class="fade-in">
+      <div class="section-label">Client Stories</div>
+      <h2 class="section-title">What Traders <span class="gradient-text">Say</span></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-in delay-1">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-text">"Aurelia Trade completely transformed my approach. The AI signals have uncanny accuracy — I've increased my monthly returns by 47% since switching. The interface is Bloomberg quality without the six-figure terminal price."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">MR</div>
+          <div><div class="author-name">Marcus Reynolds</div><div class="author-title">Hedge Fund Manager, New York</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-in delay-2">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-text">"The execution speed is unreal — my limit orders fill at exact price, zero slippage. Copy trading has been a revelation. I follow three top traders and my portfolio runs itself while I focus on strategy."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">SK</div>
+          <div><div class="author-name">Sarah Kim</div><div class="author-title">Proprietary Trader, Singapore</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-in delay-3">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-text">"Security is non-negotiable for me. Aurelia's cold storage and biometric 2FA give me complete confidence. The real-time analytics rival institutional tools. Nothing else has come close to this level of sophistication."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">AV</div>
+          <div><div class="author-name">Alessandro Vitali</div><div class="author-title">Family Office Director, Milan</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div style="text-align:center;max-width:540px;margin:0 auto 3rem;" class="fade-in">
+      <div class="section-label">Pricing</div>
+      <h2 class="section-title">Choose Your <span class="gradient-text">Edge</span></h2>
+      <p class="section-sub" style="margin:0 auto;">Transparent pricing with no hidden fees. Cancel anytime.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card fade-in delay-1">
+        <div class="pricing-tier">Starter</div>
+        <div class="pricing-price"><sup>$</sup>0</div>
+        <div class="pricing-period">Free forever</div>
+        <ul class="pricing-features">
+          <li>Basic charting &amp; indicators</li>
+          <li>5 live market feeds</li>
+          <li>Paper trading mode</li>
+          <li>Community signals</li>
+          <li>Email &amp; SMS alerts</li>
+          <li>24/7 support</li>
+        </ul>
+        <button class="btn-pricing btn-pricing-outline">Get Started Free</button>
+      </div>
+      <div class="pricing-card featured fade-in delay-2">
+        <div class="featured-badge">MOST POPULAR</div>
+        <div class="pricing-tier">Pro</div>
+        <div class="pricing-price"><sup>$</sup>79</div>
+        <div class="pricing-period">per month, billed annually</div>
+        <ul class="pricing-features">
+          <li>Everything in Starter</li>
+          <li>AI Trading Signals (unlimited)</li>
+          <li>Real-time analytics &amp; screener</li>
+          <li>Copy Trading (up to 5 traders)</li>
+          <li>Portfolio tracker &amp; tax reports</li>
+          <li>Sub-millisecond execution</li>
+          <li>Dedicated account manager</li>
+          <li>Priority 24/7 support</li>
+        </ul>
+        <button class="btn-pricing btn-pricing-gold">Start Pro Trial</button>
+      </div>
+      <div class="pricing-card fade-in delay-3">
+        <div class="pricing-tier">Institutional</div>
+        <div class="pricing-price" style="font-size:2rem;letter-spacing:-0.02em;margin-top:.25rem;">Custom</div>
+        <div class="pricing-period">Tailored to your volume</div>
+        <ul class="pricing-features">
+          <li>Everything in Pro</li>
+          <li>Direct market access (DMA)</li>
+          <li>Co-location &amp; low-latency API</li>
+          <li>Unlimited copy trading</li>
+          <li>White-label solutions</li>
+          <li>Dedicated infrastructure</li>
+          <li>Custom reporting &amp; analytics</li>
+          <li>SLA-backed uptime guarantee</li>
+        </ul>
+        <button class="btn-pricing btn-pricing-outline">Contact Sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div style="text-align:center;max-width:540px;margin:0 auto 3rem;" class="fade-in">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-title">Common <span class="gradient-text">Questions</span></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item fade-in delay-1">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Is my money secure on Aurelia Trade?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Absolutely. We employ bank-grade 256-bit AES encryption, store 95% of client assets in geographically distributed cold wallets, and carry $250M in insurance coverage. Two-factor authentication is mandatory, and our security operations center monitors the platform around the clock for anomalous activity. We are regulated in 28 jurisdictions.</div>
+        </div>
+      </div>
+      <div class="faq-item fade-in delay-2">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          What assets can I trade?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Aurelia Trade supports over 500 trading pairs across six asset classes: cryptocurrencies, US &amp; international equities, forex (80+ pairs), commodities (gold, silver, oil, gas), index CFDs (S&amp;P 500, NASDAQ, Dow, FTSE, Nikkei), and ETFs. New assets are added regularly based on trader demand.</div>
+        </div>
+      </div>
+      <div class="faq-item fade-in delay-3">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          How fast are withdrawals processed?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Crypto withdrawals are processed within 1 hour. Fiat withdrawals (USD, EUR, GBP) via wire transfer settle in 1&ndash;2 business days. Pro and Institutional clients enjoy same-day fiat withdrawals. There are no withdrawal fees for amounts above $1,000.</div>
+        </div>
+      </div>
+      <div class="faq-item fade-in delay-4">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Do you support copy trading?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes &mdash; copy trading is available on Pro and Institutional plans. You can browse our verified leaderboard of top performers, filter by asset class, risk level, and track record, and mirror their trades automatically with customizable position sizing and drawdown limits.</div>
+        </div>
+      </div>
+      <div class="faq-item fade-in delay-5">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Is there a mobile app?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes. Aurelia Trade is available on iOS (App Store) and Android (Google Play) with full feature parity to the web platform &mdash; including live charts, order management, copy trading, push notifications for price alerts, and biometric authentication. Your data syncs instantly across all devices.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="container fade-in">
+    <h2 class="cta-title">Ready to Elevate Your<br><span class="gradient-text">Trading Experience?</span></h2>
+    <p class="cta-sub">Join 500,000+ traders who already trust Aurelia Trade to grow their wealth.</p>
+    <button class="btn-hero-primary" style="font-size:1.05rem;padding:1rem 2.5rem;" onclick="openGoogleModal()">Start Trading Today &rarr;</button>
+    <div class="cta-disclaimer">No credit card required &middot; Free plan available &middot; Cancel anytime</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="partner-bar">
+      <span class="partner-label">Official Partner</span>
+      <a href="#" class="partner-logo-eaks" title="easyAKickstars">
+        <div class="eaks-badge">
+          <span class="eaks-star">✦</span>
+          <span class="eaks-text">easyAKickstars</span>
+        </div>
+      </a>
+    </div>
+    <div class="footer-grid">
+      <div>
+        <p class="footer-desc">Institutional-grade trading infrastructure for the modern investor. Available in 120+ countries worldwide.</p>
+        <div class="social-links">
+          <a href="https://x.com/AureliaAlpha" class="social-link" title="X (Twitter)" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" class="social-link" title="LinkedIn">in</a>
+          <a href="#" class="social-link" title="Telegram">&#9992;</a>
+          <a href="#" class="social-link" title="Discord">&#9112;</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Platform</div>
+        <ul class="footer-links">
+          <li><a href="#">Markets</a></li>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Copy Trading</a></li>
+          <li><a href="#">API Access</a></li>
+          <li><a href="#">Mobile App</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <ul class="footer-links">
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Security</a></li>
+          <li><a href="#">Status Page</a></li>
+          <li><a href="#">Developer API</a></li>
+          <li><a href="#">Community</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2025 All rights reserved. Trading involves risk. Past performance is not indicative of future results.</div>
+      <div class="footer-legal">
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+
+/* ── PARTICLES ── */
+for (let i = 0; i < 20; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 5 + 2;
+  Object.assign(p.style, {
+    width: size+'px', height: size+'px',
+    left: Math.random()*100+'%',
+    animationDuration: (Math.random()*20+16)+'s',
+    animationDelay: -(Math.random()*20)+'s',
+    opacity: Math.random()*0.5+0.1
+  });
+  document.getElementById('particles').appendChild(p);
+}
+
+/* ── NAVBAR ── */
+window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', scrollY > 40));
+
+/* ── MOBILE MENU ── */
+document.getElementById('hamburger').onclick = () => document.getElementById('mobile-menu').classList.add('open');
+document.getElementById('menu-close').onclick = closeMobileMenu;
+function closeMobileMenu() { document.getElementById('mobile-menu').classList.remove('open'); }
+
+/* ── HERO CANVAS ── */
+(function() {
+  const c = document.getElementById('hero-canvas'), ctx = c.getContext('2d');
+  let pts = [], off = 0;
+  const N = 120;
+  function resize() { c.width = innerWidth; c.height = innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  for (let i = 0; i < N+40; i++) pts.push(Math.random()*0.4+0.3);
+  for (let s = 0; s < 5; s++) pts = pts.map((p,i,a) => i===0||i===a.length-1 ? p : (a[i-1]+p+a[i+1])/3);
+
+  function draw() {
+    const w=c.width, h=c.height;
+    ctx.clearRect(0,0,w,h);
+    const step=w/N, midY=h*0.55, amp=h*0.25;
+    ctx.strokeStyle='rgba(212,175,55,0.05)'; ctx.lineWidth=1;
+    for(let r=0;r<8;r++){const y=h*.15+(h*.7/7)*r; ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+    for(let cl=0;cl<10;cl++){const x=w/9*cl; ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}
+
+    const idx=Math.floor(off)%pts.length;
+    const coords=[];
+    for(let i=0;i<N;i++){
+      const pi=(idx+i)%pts.length;
+      coords.push({x:i*step, y:midY-(pts[pi]-0.5)*amp*2});
+    }
+    const g=ctx.createLinearGradient(0,midY-amp,0,h);
+    g.addColorStop(0,'rgba(212,175,55,0.15)'); g.addColorStop(0.6,'rgba(212,175,55,0.03)'); g.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.moveTo(0,h); ctx.lineTo(coords[0].x,coords[0].y);
+    for(let i=1;i<coords.length-1;i++){
+      const cx=(coords[i].x+coords[i+1].x)/2, cy=(coords[i].y+coords[i+1].y)/2;
+      ctx.quadraticCurveTo(coords[i].x,coords[i].y,cx,cy);
+    }
+    ctx.lineTo(coords[coords.length-1].x,coords[coords.length-1].y);
+    ctx.lineTo(w,h); ctx.closePath(); ctx.fillStyle=g; ctx.fill();
+
+    ctx.beginPath(); ctx.moveTo(coords[0].x,coords[0].y);
+    for(let i=1;i<coords.length-1;i++){
+      const cx=(coords[i].x+coords[i+1].x)/2, cy=(coords[i].y+coords[i+1].y)/2;
+      ctx.quadraticCurveTo(coords[i].x,coords[i].y,cx,cy);
+    }
+    ctx.strokeStyle='rgba(212,175,55,0.55)'; ctx.lineWidth=2;
+    ctx.shadowColor='rgba(212,175,55,0.7)'; ctx.shadowBlur=10;
+    ctx.stroke(); ctx.shadowBlur=0;
+    off+=0.28; requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── PLATFORM CANVAS (candlesticks) ── */
+(function() {
+  const c = document.getElementById('platform-canvas'), ctx = c.getContext('2d');
+  let candles = [];
+
+  function gen(n) {
+    let p=67800; const a=[];
+    for(let i=0;i<n;i++){
+      const o=p, ch=(Math.random()-0.48)*600, cl=o+ch;
+      const hi=Math.max(o,cl)+Math.random()*200, lo=Math.min(o,cl)-Math.random()*200;
+      a.push({o,cl,hi,lo}); p=cl;
+    }
+    return a;
+  }
+
+  function draw() {
+    const rect=c.parentElement.getBoundingClientRect();
+    c.width=Math.max(rect.width-32,100); c.height=280;
+    const w=c.width, h=c.height;
+    if(!candles.length) candles=gen(58);
+    const prices=candles.flatMap(cd=>[cd.hi,cd.lo]);
+    const mn=Math.min(...prices), mx=Math.max(...prices), rng=mx-mn||1;
+    const pt={top:20,bot:30,left:10,right:52};
+    const cH=h-pt.top-pt.bot, cW=w-pt.left-pt.right;
+    ctx.clearRect(0,0,w,h);
+    ctx.strokeStyle='rgba(255,255,255,0.04)'; ctx.lineWidth=1;
+    for(let i=0;i<=5;i++){
+      const y=pt.top+(cH/5)*i;
+      ctx.beginPath();ctx.moveTo(pt.left,y);ctx.lineTo(w-pt.right,y);ctx.stroke();
+      ctx.fillStyle='rgba(156,163,175,0.6)'; ctx.font='10px monospace'; ctx.textAlign='right';
+      ctx.fillText((mx-(rng/5)*i).toFixed(0),w-4,y+4);
+    }
+    const cw=cW/candles.length, bw=Math.max(cw*0.6,2);
+    candles.forEach((cd,i)=>{
+      const x=pt.left+i*cw+cw/2, bull=cd.cl>=cd.o, color=bull?'#22c55e':'#ef4444';
+      const yH=pt.top+((mx-cd.hi)/rng)*cH, yL=pt.top+((mx-cd.lo)/rng)*cH;
+      const yO=pt.top+((mx-cd.o)/rng)*cH, yCl=pt.top+((mx-cd.cl)/rng)*cH;
+      ctx.strokeStyle=color; ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();
+      ctx.fillStyle=bull?'rgba(34,197,94,0.85)':'rgba(239,68,68,0.85)';
+      ctx.fillRect(x-bw/2,Math.min(yO,yCl),bw,Math.max(Math.abs(yCl-yO),1));
+      ctx.fillStyle=bull?'rgba(34,197,94,0.12)':'rgba(239,68,68,0.12)';
+      const vol=Math.random()*30; ctx.fillRect(pt.left+i*cw,h-pt.bot-vol+4,cw*.8,vol);
+    });
+  }
+
+  draw();
+  setInterval(()=>{
+    if(!candles.length) return;
+    const l=candles[candles.length-1];
+    l.cl+=(Math.random()-0.5)*80; l.hi=Math.max(l.hi,l.cl); l.lo=Math.min(l.lo,l.cl);
+    draw();
+  },800);
+  setInterval(()=>{
+    const l=candles[candles.length-1];
+    const nc={o:l.cl,cl:l.cl+(Math.random()-0.48)*400};
+    nc.hi=Math.max(nc.o,nc.cl)+Math.random()*150; nc.lo=Math.min(nc.o,nc.cl)-Math.random()*150;
+    candles.push(nc); if(candles.length>62) candles.shift(); draw();
+  },5000);
+  window.addEventListener('resize',draw);
+})();
+
+/* ── MARKET DATA ── */
+const mkts = [
+  {pair:'BTC/USD',p:67842.50,ch:2.34,badge:'badge-crypto',label:'Crypto',id:'m0'},
+  {pair:'ETH/USD',p:3521.80,ch:-0.87,badge:'badge-crypto',label:'Crypto',id:'m1'},
+  {pair:'NASDAQ',p:19482.50,ch:0.62,badge:'badge-index',label:'Index',id:'m2'},
+  {pair:'S&amp;P 500',p:5563.40,ch:0.44,badge:'badge-index',label:'Index',id:'m3'},
+  {pair:'GOLD',p:2314.30,ch:1.12,badge:'badge-commodity',label:'Commodity',id:'m4'},
+  {pair:'EUR/USD',p:1.0842,ch:-0.21,badge:'badge-forex',label:'Forex',id:'m5'},
+];
+
+function fmtP(p,pair) {
+  if(pair==='EUR/USD') return p.toFixed(4);
+  if(p>1000) return p.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  return p.toFixed(2);
+}
+
+function miniChart(canvas,up) {
+  const ctx=canvas.getContext('2d');
+  const pts=[]; let v=50;
+  for(let i=0;i<32;i++){v+=(Math.random()-(up?.43:.57))*10; pts.push(Math.max(5,Math.min(95,v)));}
+  const w=canvas.width=canvas.offsetWidth||200, h=canvas.height=48;
+  const mn=Math.min(...pts),mx=Math.max(...pts),rng=mx-mn||1;
+  const color=up?'#22c55e':'#ef4444';
+  ctx.clearRect(0,0,w,h);
+  ctx.beginPath();
+  pts.forEach((p,i)=>{
+    const x=i/(pts.length-1)*w, y=h-((p-mn)/rng)*(h-4)-2;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.strokeStyle=color; ctx.lineWidth=1.5; ctx.stroke();
+  const g=ctx.createLinearGradient(0,0,0,h);
+  g.addColorStop(0,up?'rgba(34,197,94,0.18)':'rgba(239,68,68,0.18)'); g.addColorStop(1,'transparent');
+  ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.closePath();ctx.fillStyle=g;ctx.fill();
+}
+
+const grid=document.getElementById('market-grid');
+mkts.forEach(m=>{
+  const up=m.ch>=0;
+  const div=document.createElement('div');
+  div.className='market-card fade-in'; div.id=m.id;
+  div.innerHTML=`
+    <div class="market-card-header">
+      <span class="market-pair">${m.pair}</span>
+      <span class="market-badge ${m.badge}">${m.label}</span>
+    </div>
+    <div class="market-price" id="${m.id}-p">${m.pair==='EUR/USD'?'':'$'}${fmtP(m.p,m.pair)}</div>
+    <div class="market-change ${up?'up':'down'}" id="${m.id}-c">
+      <div class="live-dot-sm" style="background:${up?'var(--green)':'var(--red)'}"></div>
+      ${up?'&#x25B2;':'&#x25BC;'} ${Math.abs(m.ch).toFixed(2)}%
+    </div>
+    <div class="market-mini-chart"><canvas id="${m.id}-chart"></canvas></div>
+  `;
+  grid.appendChild(div);
+  setTimeout(()=>miniChart(document.getElementById(`${m.id}-chart`),up),80);
+});
+
+setInterval(()=>{
+  mkts.forEach(m=>{
+    m.p=Math.max(0.001,m.p+(Math.random()-0.5)*m.p*0.002);
+    m.ch+=(Math.random()-0.5)*0.05;
+    const up=m.ch>=0;
+    const pel=document.getElementById(`${m.id}-p`);
+    const cel=document.getElementById(`${m.id}-c`);
+    if(pel) pel.textContent=(m.pair==='EUR/USD'?'':'$')+fmtP(m.p,m.pair);
+    if(cel){
+      cel.className=`market-change ${up?'up':'down'}`;
+      cel.innerHTML=`<div class="live-dot-sm" style="background:${up?'var(--green)':'var(--red)'}"></div> ${up?'&#x25B2;':'&#x25BC;'} ${Math.abs(m.ch).toFixed(2)}%`;
+    }
+  });
+  const hb=document.getElementById('hf-btc'), he=document.getElementById('hf-eth');
+  if(hb) hb.textContent='$'+fmtP(mkts[0].p,'BTC/USD');
+  if(he) he.textContent='$'+fmtP(mkts[1].p,'ETH/USD');
+},1400);
+
+/* ── TICKER ── */
+const tData=[
+  {s:'BTC/USD',p:'67,842',c:'+2.34%',up:true},{s:'ETH/USD',p:'3,521',c:'-0.87%',up:false},
+  {s:'NASDAQ',p:'19,482',c:'+0.62%',up:true},{s:'S&P 500',p:'5,563',c:'+0.44%',up:true},
+  {s:'GOLD',p:'2,314',c:'+1.12%',up:true},{s:'EUR/USD',p:'1.0842',c:'-0.21%',up:false},
+  {s:'SOL/USD',p:'182.40',c:'+4.22%',up:true},{s:'OIL/USD',p:'82.30',c:'-0.55%',up:false},
+  {s:'BNB/USD',p:'408.10',c:'+1.08%',up:true},{s:'FTSE',p:'8,234',c:'+0.31%',up:true},
+];
+const track=document.getElementById('ticker-track');
+track.innerHTML=[...tData,...tData].map(d=>`
+  <div class="ticker-item">
+    <span class="ticker-symbol">${d.s}</span>
+    <span class="ticker-price">$${d.p}</span>
+    <span style="font-size:.75rem;font-weight:600;color:${d.up?'var(--green)':'var(--red)'};">${d.c}</span>
+    <span class="ticker-sep">|</span>
+  </div>`).join('');
+
+/* ── WATCHLIST ── */
+[{s:'BTC/USD',p:'67,842',up:true},{s:'ETH/USD',p:'3,521',up:false},{s:'SOL/USD',p:'182.40',up:true},{s:'AAPL',p:'185.20',up:true},{s:'GOLD',p:'2,314',up:true}]
+.forEach(w=>{
+  const d=document.createElement('div');
+  d.className='watchlist-item';
+  d.innerHTML=`<span class="wl-symbol">${w.s}</span><span class="wl-price ${w.up?'up':'down'}">$${w.p}</span>`;
+  document.getElementById('watchlist').appendChild(d);
+});
+
+/* ── HISTORY ── */
+[{pair:'BTC/USD',side:'buy',pnl:'+$1,320',up:true},{pair:'ETH/USD',side:'sell',pnl:'+$795',up:true},{pair:'NASDAQ',side:'buy',pnl:'-$240',up:false},{pair:'GOLD',side:'buy',pnl:'+$540',up:true}]
+.forEach(h=>{
+  const d=document.createElement('div');
+  d.className='history-item';
+  d.innerHTML=`<span class="pair">${h.pair}</span><span class="side ${h.side}">${h.side.toUpperCase()}</span><span class="pnl ${h.up?'up':'down'}">${h.pnl}</span>`;
+  document.getElementById('history').appendChild(d);
+});
+
+/* ── FAQ ── */
+function toggleFaq(el) {
+  const item=el.parentElement, ans=item.querySelector('.faq-answer'), isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-answer').style.maxHeight='0';});
+  if(!isOpen){item.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px';}
+}
+
+/* ── TF BUTTONS ── */
+document.querySelectorAll('.tf-btn').forEach(b=>b.addEventListener('click',function(){
+  document.querySelectorAll('.tf-btn').forEach(x=>x.classList.remove('active'));
+  this.classList.add('active');
+}));
+
+/* ── SCROLL ANIMATIONS ── */
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.12});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+/* ── COUNTERS ── */
+const cObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const el=e.target, target=+el.dataset.target;
+    const prefix=el.dataset.prefix||'', suffix=el.dataset.suffix||'', mode=el.dataset.mode;
+    let cur=0; const step=target/(2000/16);
+    const t=setInterval(()=>{
+      cur=Math.min(cur+step,target);
+      if(mode==='uptime') el.textContent=(cur/100).toFixed(2)+'%';
+      else el.textContent=prefix+Math.floor(cur)+suffix;
+      if(cur>=target) clearInterval(t);
+    },16);
+    cObs.unobserve(el);
+  });
+},{threshold:.5});
+document.querySelectorAll('[data-target]').forEach(el=>cObs.observe(el));
+
+/* ── SMOOTH SCROLL ── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  const href=a.getAttribute('href');
+  if(!href||href==='#') return;
+  const t=document.querySelector(href);
+  if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+}));
+
+/* ── AUTH MODAL ── */
+const USERS_KEY = 'aurelia_users';
+const SESSION_KEY = 'aurelia_session';
+
+function getUsers() { try { return JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); } catch(e){ return []; } }
+function saveUsers(u) { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+function getSession() { try { return JSON.parse(sessionStorage.getItem(SESSION_KEY)||'null'); } catch(e){ return null; } }
+function saveSession(u) { sessionStorage.setItem(SESSION_KEY, JSON.stringify(u)); }
+function clearSession() { sessionStorage.removeItem(SESSION_KEY); }
+
+function openGoogleModal() {
+  switchView('login-view');
+  document.getElementById('g-modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeGoogleModal() {
+  document.getElementById('g-modal-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('g-modal-overlay').addEventListener('click',function(e){
+  if(e.target===this) closeGoogleModal();
+});
+
+function switchView(id) {
+  ['login-view','register-view','forgot-view','success-view'].forEach(v=>{
+    const el=document.getElementById(v);
+    if(el) el.style.display = v===id ? 'block' : 'none';
+  });
+  ['login-error','reg-error'].forEach(e=>{ const el=document.getElementById(e); if(el){ el.style.display='none'; el.textContent=''; } });
+}
+
+function showError(id, msg) {
+  const el=document.getElementById(id);
+  if(el){ el.textContent=msg; el.style.display='block'; }
+}
+
+function togglePass(inputId, btn) {
+  const inp=document.getElementById(inputId);
+  if(!inp) return;
+  inp.type = inp.type==='password' ? 'text' : 'password';
+  btn.textContent = inp.type==='password' ? '👁' : '🙈';
+}
+
+function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+function doEmailLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  if(!email||!pass){ showError('login-error','Email dan password wajib diisi.'); return; }
+  if(!isValidEmail(email)){ showError('login-error','Format email tidak valid.'); return; }
+  const users = getUsers();
+  const user = users.find(u=>u.email===email && u.password===btoa(pass));
+  if(!user){ showError('login-error','Email atau password salah. Belum punya akun? Klik Daftar sekarang.'); return; }
+  saveSession(user);
+  showSuccessAndClose(user.name, '✅');
+}
+
+function doRegister() {
+  const name  = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const pass  = document.getElementById('reg-pass').value;
+  if(!name||!email||!pass){ showError('reg-error','Semua kolom wajib diisi.'); return; }
+  if(!isValidEmail(email)){ showError('reg-error','Format email tidak valid.'); return; }
+  if(pass.length<6){ showError('reg-error','Password minimal 6 karakter.'); return; }
+  const users = getUsers();
+  if(users.find(u=>u.email===email)){ showError('reg-error','Email sudah terdaftar. Silakan masuk.'); return; }
+  const user = { name, email, password: btoa(pass), created: Date.now() };
+  users.push(user);
+  saveUsers(users);
+  saveSession(user);
+  showSuccessAndClose(name, '🎉');
+}
+
+function doForgot() {
+  const email = document.getElementById('forgot-email').value.trim();
+  if(!email||!isValidEmail(email)){ return; }
+  document.getElementById('success-title').textContent='Email Terkirim!';
+  document.getElementById('success-sub').textContent='Cek inbox '+email+' untuk link reset password.';
+  switchView('success-view');
+  setTimeout(closeGoogleModal, 2500);
+}
+
+function showSuccessAndClose(name, emoji) {
+  const initials = name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('success-title').textContent = emoji+' Selamat datang, '+name+'!';
+  document.getElementById('success-sub').textContent = 'Anda berhasil masuk ke Aurelia Trade.';
+  switchView('success-view');
+  setTimeout(()=>{ closeGoogleModal(); setLoggedIn(name, initials, null); }, 1800);
+}
+
+function setLoggedIn(name, initials, picture) {
+  const actions = document.getElementById('nav-actions');
+  actions.innerHTML = `
+    <div class="g-user-bar">
+      ${picture
+        ? `<img src="${picture}" style="width:26px;height:26px;border-radius:50%;object-fit:cover;" alt="" />`
+        : `<div class="g-user-avatar">${initials}</div>`
+      }
+      <span class="g-user-name">${name}</span>
+      <button class="g-logout-btn" onclick="doLogout()">&#x2715;</button>
+    </div>
+    <button class="btn-primary">Dashboard &rarr;</button>
+  `;
+}
+
+function doLogout() {
+  clearSession();
+  if(window.google && google.accounts) google.accounts.id.disableAutoSelect();
+  const actions = document.getElementById('nav-actions');
+  actions.innerHTML = `
+    <button class="btn-google" onclick="openGoogleModal()">
+      <svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Masuk
+    </button>
+    <button class="btn-primary" onclick="openGoogleModal()">Start Trading</button>
+  `;
+}
+
+function handleCredentialResponse(response) {
+  closeGoogleModal();
+  try {
+    const payload = JSON.parse(atob(response.credential.split('.')[1]));
+    const name = payload.name || payload.email;
+    const initials = name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+    saveSession({ name, email: payload.email, picture: payload.picture });
+    setLoggedIn(name, initials, payload.picture||null);
+  } catch(e) { setLoggedIn('Trader','AT',null); }
+}
+
+function triggerGoogleSignIn() {
+  if(window.google && google.accounts && google.accounts.id) {
+    google.accounts.id.prompt();
+  }
+}
+
+/* Restore session on reload */
+(function(){
+  const s = getSession();
+  if(s && s.name){
+    const initials = s.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+    setLoggedIn(s.name, initials, s.picture||null);
+  }
+})();
+
+window.addEventListener('load', () => {
+  if(window.google && google.accounts && google.accounts.id) {
+    google.accounts.id.initialize({
+      client_id: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
+      callback: handleCredentialResponse,
+      auto_select: false,
+    });
+  }
+});
+</script>
+</body>
+</html>
